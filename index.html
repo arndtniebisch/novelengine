@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin:0;
+        background-color: rgb(65, 63, 63);
+      }
+
+      #content {
+        background-color: rgb(209, 205, 200);
+        max-width: 500px;
+        height: 100vh;
+        margin: 0px auto;
+        padding: 80px 60px;
+        box-shadow: 20px 20px 50px 10px rgb(65, 63, 63) inset;
+        font-size: 18px;
+      }
+      #maintext {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        margin-bottom: 20px;
+      }
+      #options button {
+        display: block;
+        font-family: fantasy;
+        font-weight: bold;
+        margin: 20px auto;
+        font-size: 18px;
+        padding: 15px;
+        width: 350px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div id="maintext"></div>
+      <div id="options"></div>
+    </div>
+  </body>
+
+  <script>
+    const data = {
+      segment1: {
+        id: "segment1",
+        text: "You stand before an old, decrepit mansion. The air is thick with mist, and the wind whispers your name. You’ve heard rumors of a treasure hidden inside, but the house has claimed many who entered before you. Do you dare to proceed? The front door creaks open as if it’s been waiting for you. The dim hallway stretches into darkness. To your left, a faint flicker of candlelight spills from under a door. To your right, a staircase spirals into the shadows above.",
+        options: [
+          {
+            id: "segment2",
+            text: "Investigate the room with the candlelight.",
+          },
+          { id: "segment3", text: "Climb the staircase into the upper floor." },
+        ],
+      },
+      segment2: {
+        id: "segment2",
+        text: "You step into a dusty dining room. A long table is set with rotting food, and a candelabra in the center burns with a sickly green flame. Suddenly, the door slams shut behind you. A voice whispers, “Choose quickly, or you’ll join us forever.” On the table, there’s a rusted key and a torn piece of parchment.",
+        options: [
+          { id: "segment4", text: "Take the key." },
+          { id: "segment5", text: "Read the parchment" },
+        ],
+      },
+      segment3: {
+        id: "segment3",
+        text: "You ascend the creaking stairs, each step louder than the last. At the top, you find a long hallway lined with doors. A faint sobbing echoes from one door, while another door emits a low, guttural growl.",
+        options: [
+          { id: "segment6", text: "Open the door with the sobbing sound." },
+          { id: "segment7", text: "Open the door with the growling sound." },
+        ],
+      },
+      segment4: {
+        id: "segment4",
+        text: "The key grows warm in your hand. You spot a hidden trapdoor beneath the dining table. You unlock it and descend into a pitch-black tunnel. At the end, two paths diverge: one lit with eerie blue light, the other consumed by total darkness.",
+        options: [
+          { id: "segment8", text: "Follow the path with the blue light" },
+          { id: "segment9", text: "Enter the dark path." },
+        ],
+      },
+      segment5: {
+        id: "segment5",
+        text: "The parchment reveals a riddle: “Only the brave survive the dark.” Suddenly, the green flame extinguishes, plunging the room into darkness. A hidden panel opens in the wall, revealing a narrow passage. At the end, you find two doors: one covered in ancient symbols, the other made entirely of glass.",
+        options: [
+          { id: "segment9", text: "Enter the door with symbols" },
+          { id: "segment10", text: "Enter the glass door." },
+        ],
+      },
+      segment6: {
+        id: "segment6",
+        text: "Inside, you find a young girl staring at a broken mirror. She turns to you, tears streaming down her face. “Help me,” she pleads. On the floor, there’s a silver dagger and a small vial of red liquid.",
+        options: [
+          { id: "segment9", text: "Give her the vial." },
+          { id: "segment10", text: "Hand her the dagger." },
+        ],
+      },
+      segment7: {
+        id: "segment7",
+        text: "A monstrous figure lunges at you from the shadows. You grab a nearby chair to fend it off. Behind you, two windows burst open, revealing escape routes. One window leads to a treacherous rooftop, and the other opens to a vine-covered wall.",
+        options: [
+          { id: "segment9", text: "Climb onto the rooftop." },
+          { id: "segment10", text: " Descend the vine-covered wall." },
+        ],
+      },
+    };
+
+    window.onload = loadFirstpage();
+
+    function loadFirstpage() {
+      document.querySelector("#maintext").innerHTML = data.segment1.text;
+      generateButtonsFromIds(data.segment1.options, "options");
+    }
+
+    function loadNextpage(id) {
+      console.log("id::::", id);
+      document.querySelector("#maintext").innerHTML = data[id].text;
+      generateButtonsFromIds(data[id].options, "options");
+    }
+    function generateButtonsFromIds(idArray, containerId) {
+      // Get the container element where the buttons will be appended
+      const container = document.getElementById(containerId);
+
+      if (!container) {
+        console.error("Container element not found");
+        return;
+      }
+      container.innerHTML = "";
+
+      // Loop through the array of IDs
+      idArray.forEach((id) => {
+        // Create a button element
+        const button = document.createElement("button");
+
+        // Set the button's text and a data attribute for the ID
+        button.textContent = `${id.text}`;
+        button.setAttribute("data-id", id.id);
+
+        // Optionally, add an event listener for the button
+        button.addEventListener("click", () => {
+          console.log(`Button clicked for ID: ${id.id}`);
+          loadNextpage(id.id);
+        });
+
+        // Append the button to the container
+        container.appendChild(button);
+      });
+    }
+
+    // Example usage:
+    // HTML structure should have a container like <div id="buttonContainer"></div>
+  </script>
+</html>
